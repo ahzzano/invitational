@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ghemkYvMa4SbICExx2TZQ3jVX/cAlnzy9Q0gpGDiVgyOcT9ie6VtjgA4UmABg7C3yltL9IB1nb53gjkWwa859Q==",
+  "dgSpecHash": "KqhpTpELAB0G5qXpO++/se+xog7eOmX1asc/958UEvuqMxi1ydDYXej9M+SIV0oGaLV4PykYOK9BUF7C2mdyVA==",
   "success": true,
-  "projectFilePath": "c:\\Users\\wsant\\Documents\\Programming Projects\\invitational\\invitational.csproj",
+  "projectFilePath": "C:\\Users\\wsant\\Documents\\Programming Projects\\invitational\\invitational.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\wsant\\.nuget\\packages\\discord.net\\3.5.0\\discord.net.3.5.0.nupkg.sha512",
     "C:\\Users\\wsant\\.nuget\\packages\\discord.net.commands\\3.5.0\\discord.net.commands.3.5.0.nupkg.sha512",

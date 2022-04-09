@@ -506,11 +506,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\wsant\\Documents\\Programming Projects\\invitational\\invitational.csproj",
+      "projectUniqueName": "C:\\Users\\wsant\\Documents\\Programming Projects\\invitational\\invitational.csproj",
       "projectName": "invitational",
-      "projectPath": "c:\\Users\\wsant\\Documents\\Programming Projects\\invitational\\invitational.csproj",
+      "projectPath": "C:\\Users\\wsant\\Documents\\Programming Projects\\invitational\\invitational.csproj",
       "packagesPath": "C:\\Users\\wsant\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\wsant\\Documents\\Programming Projects\\invitational\\obj\\",
+      "outputPath": "C:\\Users\\wsant\\Documents\\Programming Projects\\invitational\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\wsant\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -520,7 +520,7 @@
         "net5.0"
       ],
       "sources": {
-        "https://api.nuget.org/v3/index.json": {}
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {}
       },
       "frameworks": {
         "net5.0": {
