@@ -5,7 +5,9 @@
   },
   "libraries": {},
   "projectFileDependencyGroups": {
-    "net5.0": []
+    "net5.0": [
+      "Discord.Net >= 3.5.0"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\wsant\\.nuget\\packages\\": {}
@@ -13,11 +15,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\wsant\\Documents\\Programming Projects\\invitational\\invitational.csproj",
+      "projectUniqueName": "c:\\Users\\wsant\\Documents\\Programming Projects\\invitational\\invitational.csproj",
       "projectName": "invitational",
-      "projectPath": "C:\\Users\\wsant\\Documents\\Programming Projects\\invitational\\invitational.csproj",
+      "projectPath": "c:\\Users\\wsant\\Documents\\Programming Projects\\invitational\\invitational.csproj",
       "packagesPath": "C:\\Users\\wsant\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\wsant\\Documents\\Programming Projects\\invitational\\obj\\",
+      "outputPath": "c:\\Users\\wsant\\Documents\\Programming Projects\\invitational\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\wsant\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -44,6 +46,12 @@
     "frameworks": {
       "net5.0": {
         "targetAlias": "net5.0",
+        "dependencies": {
+          "Discord.Net": {
+            "target": "Package",
+            "version": "[3.5.0, )"
+          }
+        },
         "imports": [
           "net461",
           "net462",
@@ -62,5 +70,16 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.406\\RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1101",
+      "level": "Error",
+      "message": "Unable to find package Discord.Net. No packages exist with this id in source(s): Microsoft Visual Studio Offline Packages",
+      "libraryId": "Discord.Net",
+      "targetGraphs": [
+        "net5.0"
+      ]
+    }
+  ]
 }

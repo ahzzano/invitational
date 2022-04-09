@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\wsant\\Documents\\Programming Projects\\invitational\\invitational.csproj": {}
+    "c:\\Users\\wsant\\Documents\\Programming Projects\\invitational\\invitational.csproj": {}
   },
   "projects": {
-    "C:\\Users\\wsant\\Documents\\Programming Projects\\invitational\\invitational.csproj": {
+    "c:\\Users\\wsant\\Documents\\Programming Projects\\invitational\\invitational.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\wsant\\Documents\\Programming Projects\\invitational\\invitational.csproj",
+        "projectUniqueName": "c:\\Users\\wsant\\Documents\\Programming Projects\\invitational\\invitational.csproj",
         "projectName": "invitational",
-        "projectPath": "C:\\Users\\wsant\\Documents\\Programming Projects\\invitational\\invitational.csproj",
+        "projectPath": "c:\\Users\\wsant\\Documents\\Programming Projects\\invitational\\invitational.csproj",
         "packagesPath": "C:\\Users\\wsant\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\wsant\\Documents\\Programming Projects\\invitational\\obj\\",
+        "outputPath": "c:\\Users\\wsant\\Documents\\Programming Projects\\invitational\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\wsant\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -38,6 +38,12 @@
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
+          "dependencies": {
+            "Discord.Net": {
+              "target": "Package",
+              "version": "[3.5.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
