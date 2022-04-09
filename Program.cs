@@ -13,6 +13,7 @@ namespace invitational
         public string token {get; set;}
         public int maxPlayers {get; set;}
         public int maxTeams {get; set;}
+        public char commandPrefix {get; set;}
     }
 
     class Program
@@ -41,13 +42,17 @@ namespace invitational
             SettingsFile settingsValues = JsonSerializer.Deserialize<SettingsFile>(settingsString);
 
             // Instantiate the Settings
-
             Settings.Load(settingsValues);   
         }
 
-        public static DiscordSocketClient GetClient() 
-        {
-            return instance._client;
+        public static DiscordSocketClient GetClient() => instance._client;
+        public static CommandService GetCommandService() => instance._commands;
+        public static bool IsIstantiated() {
+            if(instance == null) 
+                return false;
+
+            else 
+                return true;   
         }
 
         public async Task RunBotAsync()
@@ -57,7 +62,13 @@ namespace invitational
             _client = new DiscordSocketClient();
             _client.Log += Log;
 
+            _commands = new CommandService();
+
             string token = Settings.GetDiscordToken();
+
+            CommandHandler commandHandler = new CommandHandler();
+
+            await commandHandler.RegisterCommandsAsync();
 
             await _client.LoginAsync(TokenType.Bot, token);
             await _client.StartAsync();

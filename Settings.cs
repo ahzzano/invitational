@@ -8,6 +8,7 @@ namespace invitational {
 
         // Bot Settings
         private string Token; 
+        public char commandPrefix;
 
         private Settings() {
             if(instance == null) {
@@ -20,6 +21,7 @@ namespace invitational {
             settings.Token = values.token;
             settings.maxPlayers = values.maxPlayers;
             settings.maxTeams = values.maxTeams;
+            settings.commandPrefix = values.commandPrefix;
 
             return Settings.instance;
         }
