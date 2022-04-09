@@ -18,9 +18,21 @@ namespace invitational
     class Program
     {
         private DiscordSocketClient _client;
+        private CommandService _commands; 
 
+        public static Program instance; 
 
-        public static Task Main(string[] args) => new Program().RunBotAsync();
+        public static Task Main(string[] args) {
+            
+
+            Program instance = new Program();
+
+            if(Program.instance == null) {
+                Program.instance = instance;
+            }
+            
+            return instance.RunBotAsync();
+        }
 
         private void LoadSettings() {
 
@@ -31,6 +43,11 @@ namespace invitational
             // Instantiate the Settings
 
             Settings.Load(settingsValues);   
+        }
+
+        public static DiscordSocketClient GetClient() 
+        {
+            return instance._client;
         }
 
         public async Task RunBotAsync()
