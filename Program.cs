@@ -1,4 +1,6 @@
 ﻿using System;
+using Discord;
+using Discord.Net; 
 
 namespace invitational
 {
