@@ -84,7 +84,7 @@ namespace invitational {
 
         public async Task OnReactionAdded(Cacheable<IUserMessage, ulong> _, Cacheable<IMessageChannel, ulong> __, SocketReaction reaction)
         {
-            if(reaction.MessageId != message.Id || ((SocketUser) reaction.User).IsBot || players.Length >= maxPlayers - 1)
+            if(reaction.MessageId != message.Id || ((SocketUser) reaction.User).IsBot)
             {
                 return;
             }
