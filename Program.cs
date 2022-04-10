@@ -48,11 +48,6 @@ namespace invitational
             Settings.Load(settingsValues);   
         }
 
-        public void AddGame(Game game) 
-        {
-            games.Add(game);
-        }
-
         public static DiscordSocketClient GetClient() => instance._client;
         public static CommandService GetCommandService() => instance._commands;
         public static bool IsIstantiated() {
@@ -88,6 +83,15 @@ namespace invitational
         {
             Console.WriteLine(message.ToString());
             return Task.CompletedTask;
+        }
+
+        public Game CreateGame()
+        {
+            int gameID = games.Count;
+            
+            Game game = new Game(gameID);
+            games.Add(game);
+            return game;
         }
     }
 }
