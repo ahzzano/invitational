@@ -19,9 +19,8 @@ namespace invitational {
 
         public async Task RegisterCommandsAsync()
         {
-            Program.GetClient().MessageReceived += HandleCommandAsync;
-
             await Program.GetCommandService().AddModulesAsync(assembly: Assembly.GetEntryAssembly(), services: null);
+            Program.GetClient().MessageReceived += HandleCommandAsync;
         }
 
         private async Task HandleCommandAsync(SocketMessage arg) 

@@ -22,6 +22,7 @@ namespace invitational
 
         private DiscordSocketClient _client;
         private CommandService _commands; 
+        private CommandHandler _commandHandler; 
 
         public static Program instance; 
         public List<Game> games = new List<Game>(); 
@@ -73,9 +74,9 @@ namespace invitational
 
             string token = Settings.GetDiscordToken();
 
-            CommandHandler commandHandler = new CommandHandler();
+            _commandHandler = new CommandHandler();
 
-            await commandHandler.RegisterCommandsAsync();
+            await _commandHandler.RegisterCommandsAsync();
 
             await _client.LoginAsync(TokenType.Bot, token);
             await _client.StartAsync();

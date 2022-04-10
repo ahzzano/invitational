@@ -8,7 +8,8 @@ namespace invitational {
     class Game {
         public int maxPlayers = 10; 
         public bool completed = false;
-        public IUserMessage message;
+        public SocketUserMessage message;
+        public EmbedBuilder embeddedMessage; 
         public int id;
     }
 }
