@@ -11,7 +11,7 @@ using System.Linq;
 namespace invitational {
 
     class Game {
-        public int maxPlayers = 10; 
+        public int maxPlayers = Settings.instance.maxPlayers; 
         public bool completed = false;
         public bool started = false; 
         public RestUserMessage message;
@@ -68,7 +68,10 @@ namespace invitational {
 
             EmbedBuilder embed = new EmbedBuilder();
 
-            embed.AddField("Congratulations to", winner);
+            embed.AddField($"{winner} Wins the Game", "lol")
+                .AddField("Members", teamWinner == 0 ? GetTeam1String() : GetTeam2String())
+                .WithImageUrl(Settings.instance.winImage)
+                .WithCurrentTimestamp();
 
             await message.Channel.SendMessageAsync("", false, embed.Build());
         }

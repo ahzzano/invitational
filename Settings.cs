@@ -12,6 +12,7 @@ namespace invitational {
 
         public string queueImage;
         public string gameImage;
+        public string winImage; 
 
         private Settings() {
             if(instance == null) {
@@ -28,6 +29,7 @@ namespace invitational {
 
             settings.queueImage = values.queueImage;
             settings.gameImage = values.gameImage;
+            settings.winImage = values.winImage;
 
             return Settings.instance;
         }

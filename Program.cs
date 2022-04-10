@@ -18,6 +18,7 @@ namespace invitational
 
         public string queueImage {get; set;}
         public string gameImage {get; set;}
+        public string winImage {get; set;}
         public string[] maps {get; set;}
     }
 
