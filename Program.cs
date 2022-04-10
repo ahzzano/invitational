@@ -60,6 +60,8 @@ namespace invitational
 
         public async Task RunBotAsync()
         {
+            Console.WriteLine(games.Count);
+
             LoadSettings();
 
             _client = new DiscordSocketClient();
@@ -88,9 +90,10 @@ namespace invitational
         public Game CreateGame()
         {
             int gameID = games.Count;
-            
+
             Game game = new Game(gameID);
             games.Add(game);
+            game.OnGameCreate();
             return game;
         }
     }

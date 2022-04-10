@@ -6,6 +6,7 @@ using Discord.WebSocket;
 using Discord.Rest;
 using Discord.Commands;
 using Discord.Net;
+using System.Linq;
 
 namespace invitational {
     class Game {
@@ -21,23 +22,78 @@ namespace invitational {
         public Game(int id) 
         {
             componentBuilder = new ComponentBuilder();
-
-            componentBuilder.WithButton("Join", $"join-button-{id}")
-                .WithButton("Leave", $"leave-button-{id}");
             
-            Program.GetClient().ButtonExecuted += ButtonHandler;
-
             players = new SocketUser[maxPlayers];
         }
 
         public void OnGameEnd()
         {
-            Program.GetClient().ButtonExecuted -= ButtonHandler;
+            Program.GetClient().ReactionAdded -= OnReactionAdded;
+            Program.GetClient().ReactionRemoved -= OnReactionRemoved;
         }
 
         public void OnGameStart()
         {
 
+        }
+
+        public void OnGameCreate()
+        {
+            Program.GetClient().ReactionAdded += OnReactionAdded;
+            Program.GetClient().ReactionRemoved += OnReactionRemoved;
+        }
+
+        public async Task OnReactionAdded(Cacheable<IUserMessage, ulong> _, Cacheable<IMessageChannel, ulong> __, SocketReaction reaction)
+        {
+            if(reaction.MessageId != message.Id || ((SocketUser) reaction.User).IsBot)
+            {
+                return;
+            }
+
+            SocketUser user = (SocketUser) reaction.User;
+
+            for(int i=0; i < maxPlayers; i++)
+            {
+                if(players[i] == null)
+                {
+                    players[i] = user;
+                    break;
+                }
+            }
+
+            numberOfPlayers++;
+
+            UpdateGameMessage();
+        }
+
+        public async Task OnReactionRemoved(Cacheable<IUserMessage, ulong> _, Cacheable<IMessageChannel, ulong> __, SocketReaction reaction)
+        {
+            if(reaction.MessageId != message.Id || ((SocketUser) reaction.User).IsBot)
+            {
+                return;
+            }
+
+            SocketUser user = (SocketUser) reaction.User;
+
+            if(players.Contains(user))
+            {
+                for(int i=0; i < maxPlayers; i++)
+                {
+                    if(players[i] == user)
+                    {
+                        players[i] = null;
+                        numberOfPlayers--;
+                        break;
+                    }
+                }
+            }
+
+            UpdateGameMessage();
+        }
+
+        public async void UpdateGameMessage()
+        {
+            await message.ModifyAsync(delegate(MessageProperties properties) {properties.Embed = GetGameMessage();});
         }
 
         public Embed GetGameMessage() 
@@ -47,56 +103,34 @@ namespace invitational {
                 Color = Color.Green
             };
 
-            embed.AddField($"Game {id}", "Game 1, Join or Leave")
-                .AddField("Queue", "Player1\nPlayer2\nPlayer3\nPlayer4\nPlayer5\nPlayer1\nPlayer2\nPlayer3\nPlayer4\nPlayer5")
+            embed.AddField($"Game {id}", $"Game #{id} has been initiated, Join or Leave")
+                .AddField("Queue", GetQueueString())
                 .WithCurrentTimestamp()
                 .WithImageUrl("https://c.tenor.com/CYJS0cjte98AAAAC/sengoku-nadeko-hitagi-end.gif");
 
             return embed.Build();
         }
-
-        public MessageComponent GetMessageComponent() => componentBuilder.Build();
         
+        private string GetQueueString()
+        {
+            string queue = "";
 
-        public async Task ButtonHandler(SocketMessageComponent component)
-        {       
-            if($"join-button-{id}" == component.Data.CustomId)
+            for(int i=0; i < maxPlayers; i++)
             {
-                EmbedBuilder embed = new EmbedBuilder();
+                if(players[i] == null)
+                    continue;
 
-                string queue = "";
-
-                players[numberOfPlayers] = component.User;
-
-                for(int i=0; i < numberOfPlayers; i++)
-                {
-                    queue += $"{players[i].Username}\n";
-                }
-
-                Console.WriteLine(queue);
-
-                embed.AddField($"Game {id}", "Game 1, Join or Leave")
-                    .AddField("Queue", "Player54\nPlayer2\nPlayer3\nPlayer4\nPlayer5\nPlayer1\nPlayer2\nPlayer3\nPlayer4\nPlayer5")
-                    .WithCurrentTimestamp()
-                    .WithImageUrl("https://c.tenor.com/CYJS0cjte98AAAAC/sengoku-nadeko-hitagi-end.gif");
-
-                await component.Channel.SendMessageAsync("Lmao");
-
-                await message.ModifyAsync(delegate(MessageProperties message) {
-                    message.Embed = embed.Build();
-                });
-
-                numberOfPlayers++;
+                queue += $"{players[i].Username}\n";
             }
 
-            if($"leave-button-{id}" == component.Data.CustomId)
+            if(queue == "")
             {
-                numberOfPlayers--;
-
-                if(numberOfPlayers < 0)
-                    numberOfPlayers = 0;
+                queue = "No one is here";
             }
 
+            return queue;
         }
+
+        
     }
 }
