@@ -14,6 +14,7 @@ namespace invitational {
         public int maxPlayers = Settings.instance.maxPlayers; 
         public bool completed = false;
         public bool started = false; 
+        public Emoji joinEmote = new Emoji("👍");
         public RestUserMessage message;
         private ComponentBuilder componentBuilder;
         private SocketUser[] players; 
@@ -118,7 +119,7 @@ namespace invitational {
 
         public async Task OnReactionAdded(Cacheable<IUserMessage, ulong> _, Cacheable<IMessageChannel, ulong> __, SocketReaction reaction)
         {
-            if(reaction.MessageId != message.Id || ((SocketUser) reaction.User).IsBot)
+            if(reaction.MessageId != message.Id || ((SocketUser) reaction.User).IsBot || reaction.Emote.Name != joinEmote.Name)
             {
                 return;
             }
@@ -141,7 +142,7 @@ namespace invitational {
 
         public async Task OnReactionRemoved(Cacheable<IUserMessage, ulong> _, Cacheable<IMessageChannel, ulong> __, SocketReaction reaction)
         {
-            if(reaction.MessageId != message.Id || ((SocketUser) reaction.User).IsBot)
+            if(reaction.MessageId != message.Id || ((SocketUser) reaction.User).IsBot || reaction.Emote.Name != joinEmote.Name)
             {
                 return;
             }
