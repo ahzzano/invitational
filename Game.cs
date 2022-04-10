@@ -23,6 +23,7 @@ namespace invitational {
 
         public int id;
 
+
         private int numberOfPlayers = 0;
 
         public Game(int id) 
@@ -34,13 +35,13 @@ namespace invitational {
             OnGameCreate();
         }
 
-        public void EndGame()
+        public void EndGame(int teamWinner)
         {
             if(completed == true)
                 return;
 
             completed = true; 
-            OnGameEnd();
+            OnGameEnd(teamWinner);
         }
 
         public void StartGame()
@@ -48,29 +49,58 @@ namespace invitational {
             if(started == true)
                 return;
 
-            for(int i=0; i < maxPlayers; i++)
-            {
-                if(players[i] == null)
-                    return;
-            }
-
             started = true;
 
             OnGameStart();
         }
 
-        private async void OnGameEnd()
+        private async void OnGameEnd(int teamWinner)
         {
             Program.GetClient().ReactionAdded -= OnReactionAdded;
             Program.GetClient().ReactionRemoved -= OnReactionRemoved;
-            await message.DeleteAsync();
-        
+            
+            string winner = "";
+
+            if(teamWinner == 0)
+                winner = "Team 1";
+            else
+                winner = "Team 2";
+
+            EmbedBuilder embed = new EmbedBuilder();
+
+            embed.AddField("Congratulations to", winner);
+
+            await message.Channel.SendMessageAsync("", false, embed.Build());
         }
 
         private async void OnGameStart()
         {
             team1 = new SocketUser[(int) players.Length / 2];
             team2 = new SocketUser[players.Length - ((int) players.Length / 2) + 1];
+
+            int team1Index = 0;
+            int team2Index = 0;
+
+            for(int i=0; i < numberOfPlayers; i++)
+            {
+                if(players[i] == null)
+                    continue;
+                
+                Random random = new Random();
+
+                int choice = random.Next(0,1);
+
+                if(choice == 0) 
+                {
+                    team1[team1Index] = players[i];
+                    team1Index++;
+                }
+                else 
+                {
+                    team2[team2Index] = players[i];
+                    team2Index++;
+                }
+            }
 
            await message.RemoveAllReactionsAsync(); 
            UpdateGameMessage();
@@ -164,8 +194,8 @@ namespace invitational {
             };
 
             embed.AddField($"Game {id}", $"Game #{id} is now starting")
-                .AddField("Team1", GetQueueString())
-                .AddField("Team2", GetQueueString())
+                .AddField("Team1", GetTeam1String())
+                .AddField("Team2", GetTeam2String())
                 .WithCurrentTimestamp()
                 .WithImageUrl(Settings.instance.gameImage);
 
@@ -192,6 +222,44 @@ namespace invitational {
             return queue;
         }
 
-        
+        private string GetTeam1String()
+        {
+            string queue = "";
+
+            for(int i=0; i < team1.Length; i++)
+            {
+                if(team1[i] == null)
+                    continue;
+
+                queue += $"{team1[i].Username}\n";
+            }
+
+            if(queue == "")
+            {
+                queue = "No one is here";
+            }
+
+            return queue;   
+        }
+
+        private string GetTeam2String()
+        {
+            string queue = "";
+
+            for(int i=0; i < team2.Length; i++)
+            {
+                if(team2[i] == null)
+                    continue;
+
+                queue += $"{team2[i].Username}\n";
+            }
+
+            if(queue == "")
+            {
+                queue = "No one is here";
+            }
+
+            return queue;   
+        }
     }
 }

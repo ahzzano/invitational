@@ -100,10 +100,10 @@ namespace invitational
             return game;
         }
 
-        public void EndGame(int id)
+        public void EndGame(int id, int teamWinner)
         {
             Game game = games[id];
-            game.EndGame();
+            game.EndGame(teamWinner);
             games.RemoveAt(id);
         }
     }

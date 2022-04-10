@@ -8,9 +8,9 @@ namespace invitational {
     {
         [Command("end")]
         [Summary("ends the game")]
-        public async Task EndGame(int gameId) 
+        public async Task EndGame(int gameId, int teamWinner) 
         {
-            Program.instance.EndGame(gameId);
+            Program.instance.EndGame(gameId, teamWinner);
             await ReplyAsync($"Ending Game #{gameId}");
         }
 
