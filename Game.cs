@@ -98,7 +98,7 @@ namespace invitational {
                 return;
             }
 
-            if(reaction.Emote.Name != joinEmote.Name)
+            if(reaction.Emote.Name == joinEmote.Name)
             {
                 SocketUser user = (SocketUser) reaction.User;
 
@@ -126,7 +126,7 @@ namespace invitational {
                 return;
             }
 
-            if(reaction.Emote.Name != joinEmote.Name)
+            if(reaction.Emote.Name == joinEmote.Name)
             {
                 SocketUser user = (SocketUser) reaction.User;
 
