@@ -6,7 +6,7 @@ using System;
 namespace invitational {
     public class CreateGameCommand: ModuleBase<SocketCommandContext>
     {
-        [Command("start")]
+        [Command("start", ignoreExtraArgs: true)]
         [Summary("Starts a game")]
         public async Task CreateGame() 
         {
