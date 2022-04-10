@@ -10,6 +10,9 @@ namespace invitational {
         private string Token; 
         public char commandPrefix;
 
+        public string queueImage;
+        public string gameImage;
+
         private Settings() {
             if(instance == null) {
                 Settings.instance = this; 
@@ -22,6 +25,9 @@ namespace invitational {
             settings.maxPlayers = values.maxPlayers;
             settings.maxTeams = values.maxTeams;
             settings.commandPrefix = values.commandPrefix;
+
+            settings.queueImage = values.queueImage;
+            settings.gameImage = values.gameImage;
 
             return Settings.instance;
         }

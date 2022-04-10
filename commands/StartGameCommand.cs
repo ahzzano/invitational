@@ -9,17 +9,9 @@ namespace invitational {
         [Command("start")]
         [Summary("starts the game")]
         [RequireBotPermission(GuildPermission.AddReactions)]
-        public async Task StartGame() 
+        public async Task StartGame(int gameId) 
         {
-            Game game = Program.instance.CreateGame();
-            
-            var message = await Context.Channel.SendMessageAsync("", false, game.GetQueueMessage());
-            
-            game.message = message;
-
-            Emoji joinEmote = new Emoji("👍");
-
-            await message.AddReactionAsync(joinEmote);
+            Program.instance.games[gameId].StartGame();
         }
 
     }

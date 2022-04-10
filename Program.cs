@@ -15,6 +15,10 @@ namespace invitational
         public int maxPlayers {get; set;}
         public int maxTeams {get; set;}
         public char commandPrefix {get; set;}
+
+        public string queueImage {get; set;}
+        public string gameImage {get; set;}
+        public string[] maps {get; set;}
     }
 
     class Program

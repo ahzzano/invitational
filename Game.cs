@@ -9,6 +9,7 @@ using Discord.Net;
 using System.Linq;
 
 namespace invitational {
+
     class Game {
         public int maxPlayers = 10; 
         public bool completed = false;
@@ -44,6 +45,7 @@ namespace invitational {
                 return;
 
             started = true;
+
             OnGameStart();
         }
 
@@ -58,6 +60,7 @@ namespace invitational {
         private async void OnGameStart()
         {
            await message.RemoveAllReactionsAsync(); 
+           UpdateGameMessage();
         }
 
         private async void OnGameCreate()
@@ -114,6 +117,11 @@ namespace invitational {
             UpdateQueueMessage();
         }
 
+        public async void UpdateGameMessage()
+        {
+            await message.ModifyAsync(delegate(MessageProperties properties) {properties.Embed = GetGameMessage();});
+        }
+
         public async void UpdateQueueMessage()
         {
             await message.ModifyAsync(delegate(MessageProperties properties) {properties.Embed = GetQueueMessage();});
@@ -130,11 +138,27 @@ namespace invitational {
             embed.AddField($"Game {id}", $"Game #{id} has been initiated, Join or Leave")
                 .AddField("Queue", GetQueueString())
                 .WithCurrentTimestamp()
-                .WithImageUrl("https://c.tenor.com/CYJS0cjte98AAAAC/sengoku-nadeko-hitagi-end.gif");
+                .WithImageUrl(Settings.instance.queueImage);
 
             return embed.Build();
         }
         
+        public Embed GetGameMessage()
+        {
+            EmbedBuilder embed = new EmbedBuilder()
+            {
+                Color = Color.Blue
+            };
+
+            embed.AddField($"Game {id}", $"Game #{id} is now starting")
+                .AddField("Team1", GetQueueString())
+                .AddField("Team2", GetQueueString())
+                .WithCurrentTimestamp()
+                .WithImageUrl(Settings.instance.gameImage);
+
+            return embed.Build();            
+        }
+
         private string GetQueueString()
         {
             string queue = "";
