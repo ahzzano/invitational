@@ -12,6 +12,7 @@ namespace invitational {
     class Game {
         public int maxPlayers = 10; 
         public bool completed = false;
+        public bool started = false; 
         public RestUserMessage message;
         private ComponentBuilder componentBuilder;
         private SocketUser[] players; 
@@ -26,13 +27,28 @@ namespace invitational {
             players = new SocketUser[maxPlayers];
         }
 
-        public void OnGameEnd()
+        public void EndGame()
+        {
+            completed = true; 
+            started = true; 
+            OnGameEnd();
+        }
+
+        public void StartGame()
+        {
+            completed = false;
+            started = true;
+            OnGameStart()
+        }
+
+        private void OnGameEnd()
         {
             Program.GetClient().ReactionAdded -= OnReactionAdded;
             Program.GetClient().ReactionRemoved -= OnReactionRemoved;
         }
 
-        public void OnGameStart()
+
+        private void OnGameStart()
         {
 
         }
