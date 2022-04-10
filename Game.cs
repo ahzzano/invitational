@@ -81,7 +81,7 @@ namespace invitational {
         {
             AssignTeam();
 
-            
+
 
         }
 
@@ -93,50 +93,60 @@ namespace invitational {
 
         public async Task OnReactionAdded(Cacheable<IUserMessage, ulong> _, Cacheable<IMessageChannel, ulong> __, SocketReaction reaction)
         {
-            if(reaction.MessageId != message.Id || ((SocketUser) reaction.User).IsBot || reaction.Emote.Name != joinEmote.Name)
+            if(reaction.MessageId != message.Id || ((SocketUser) reaction.User).IsBot)
             {
                 return;
             }
 
-            SocketUser user = (SocketUser) reaction.User;
-
-            for(int i=0; i < maxPlayers; i++)
+            if(reaction.Emote.Name != joinEmote.Name)
             {
-                if(players[i] == null)
+                SocketUser user = (SocketUser) reaction.User;
+
+                for(int i=0; i < maxPlayers; i++)
                 {
-                    players[i] = user;
-                    break;
+                    if(players[i] == null)
+                    {
+                        players[i] = user;
+                        break;
+                    }
                 }
+
+                numberOfPlayers++;
+
+                UpdateQueueMessage();
             }
 
-            numberOfPlayers++;
 
-            UpdateQueueMessage();
         }
 
         public async Task OnReactionRemoved(Cacheable<IUserMessage, ulong> _, Cacheable<IMessageChannel, ulong> __, SocketReaction reaction)
         {
-            if(reaction.MessageId != message.Id || ((SocketUser) reaction.User).IsBot || reaction.Emote.Name != joinEmote.Name)
+            if(reaction.MessageId != message.Id || ((SocketUser) reaction.User).IsBot)
             {
                 return;
             }
 
-            SocketUser user = (SocketUser) reaction.User;
-
-            if(players.Contains(user))
+            if(reaction.Emote.Name != joinEmote.Name)
             {
-                for(int i=0; i < maxPlayers; i++)
+                SocketUser user = (SocketUser) reaction.User;
+
+                if(players.Contains(user))
                 {
-                    if(players[i] == user)
+                    for(int i=0; i < maxPlayers; i++)
                     {
-                        players[i] = null;
-                        numberOfPlayers--;
-                        break;
+                        if(players[i] == user)
+                        {
+                            players[i] = null;
+                            numberOfPlayers--;
+                            break;
+                        }
                     }
                 }
+
+                UpdateQueueMessage();
             }
 
-            UpdateQueueMessage();
+
         }
 
         private async void AssignTeam()
@@ -155,7 +165,7 @@ namespace invitational {
                 if(players[i] == null)
                     continue;
                 
-                if(choice == 0 || team1Index < team1.Length) 
+                if(choice == 0 || team1Index < (int) (maxPlayers / 2) - 1) 
                 {
                     team1[team1Index] = players[i];
                     team1Index++;
@@ -180,8 +190,6 @@ namespace invitational {
         {
             await message.ModifyAsync(delegate(MessageProperties properties) {properties.Embed = GetQueueMessage();});
         }
-        
-
         public Embed GetQueueMessage() 
         {
             EmbedBuilder embed = new EmbedBuilder()
