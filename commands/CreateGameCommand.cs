@@ -9,7 +9,7 @@ namespace invitational {
         [Command("start")]
         [Summary("Starts a game")]
         [RequireBotPermission(GuildPermission.AddReactions)]
-        public async Task CreateGame() 
+        public async Task CreateGame(string teamSelection="random") 
         {
             Game game = Program.instance.CreateGame();
             

@@ -11,8 +11,9 @@ namespace invitational {
         public async Task EndGame(int gameId) 
         {
             Game game = Program.instance.games[gameId];
-
             game.EndGame();
+
+            
         }
 
     }

@@ -93,8 +93,13 @@ namespace invitational
 
             Game game = new Game(gameID);
             games.Add(game);
-            game.OnGameCreate();
             return game;
+        }
+
+        public void EndGame(int id)
+        {
+            Game game = games[id];
+            game.EndGame();
         }
     }
 }

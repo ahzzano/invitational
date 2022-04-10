@@ -25,6 +25,8 @@ namespace invitational {
             componentBuilder = new ComponentBuilder();
             
             players = new SocketUser[maxPlayers];
+
+            OnGameCreate();
         }
 
         public void EndGame()
@@ -38,7 +40,7 @@ namespace invitational {
         {
             completed = false;
             started = true;
-            OnGameStart()
+            OnGameStart();
         }
 
         private void OnGameEnd()
@@ -50,10 +52,10 @@ namespace invitational {
 
         private void OnGameStart()
         {
-
+            
         }
 
-        public void OnGameCreate()
+        private void OnGameCreate()
         {
             Program.GetClient().ReactionAdded += OnReactionAdded;
             Program.GetClient().ReactionRemoved += OnReactionRemoved;
