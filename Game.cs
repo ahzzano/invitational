@@ -83,14 +83,15 @@ namespace invitational {
 
             for(int i=0; i < numberOfPlayers; i++)
             {
+                Random random = new Random();
+                int choice = random.Next(0,2);
+
                 if(players[i] == null)
                     continue;
                 
-                Random random = new Random();
+                
 
-                int choice = random.Next(0,1);
-
-                if(choice == 0) 
+                if(choice == 0 || team1Index < team1.Length) 
                 {
                     team1[team1Index] = players[i];
                     team1Index++;
