@@ -7,7 +7,8 @@ namespace invitational
 {
     public class Help : ModuleBase<SocketCommandContext>
     {
-        [Command("help", ignoreExtraArgs: true)]
+        [Command("help")]
+        [Summary("sends a help message")]
         public async Task SendHelp() 
         {
             List<CommandInfo> commands = Program.GetCommandService().Commands as List<CommandInfo>;
