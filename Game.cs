@@ -17,6 +17,10 @@ namespace invitational {
         public RestUserMessage message;
         private ComponentBuilder componentBuilder;
         private SocketUser[] players; 
+
+        private SocketUser[] team1;
+        private SocketUser[] team2;
+
         public int id;
 
         private int numberOfPlayers = 0;
@@ -44,6 +48,12 @@ namespace invitational {
             if(started == true)
                 return;
 
+            for(int i=0; i < maxPlayers; i++)
+            {
+                if(players[i] == null)
+                    return;
+            }
+
             started = true;
 
             OnGameStart();
@@ -59,6 +69,9 @@ namespace invitational {
 
         private async void OnGameStart()
         {
+            team1 = new SocketUser[(int) players.Length / 2];
+            team2 = new SocketUser[players.Length - ((int) players.Length / 2) + 1];
+
            await message.RemoveAllReactionsAsync(); 
            UpdateGameMessage();
         }
@@ -71,7 +84,7 @@ namespace invitational {
 
         public async Task OnReactionAdded(Cacheable<IUserMessage, ulong> _, Cacheable<IMessageChannel, ulong> __, SocketReaction reaction)
         {
-            if(reaction.MessageId != message.Id || ((SocketUser) reaction.User).IsBot)
+            if(reaction.MessageId != message.Id || ((SocketUser) reaction.User).IsBot || players.Length >= maxPlayers - 1)
             {
                 return;
             }
