@@ -79,36 +79,10 @@ namespace invitational {
 
         private async void OnGameStart()
         {
-            team1 = new SocketUser[(int) players.Length / 2];
-            team2 = new SocketUser[players.Length - ((int) players.Length / 2) + 1];
+            AssignTeam();
 
-            int team1Index = 0;
-            int team2Index = 0;
+            
 
-            for(int i=0; i < numberOfPlayers; i++)
-            {
-                Random random = new Random();
-                int choice = random.Next(0,2);
-
-                if(players[i] == null)
-                    continue;
-                
-                
-
-                if(choice == 0 || team1Index < team1.Length) 
-                {
-                    team1[team1Index] = players[i];
-                    team1Index++;
-                }
-                else 
-                {
-                    team2[team2Index] = players[i];
-                    team2Index++;
-                }
-            }
-
-           await message.RemoveAllReactionsAsync(); 
-           UpdateGameMessage();
         }
 
         private async void OnGameCreate()
@@ -163,6 +137,38 @@ namespace invitational {
             }
 
             UpdateQueueMessage();
+        }
+
+        private async void AssignTeam()
+        {
+            team1 = new SocketUser[(int) players.Length / 2];
+            team2 = new SocketUser[players.Length - ((int) players.Length / 2) + 1];
+
+            int team1Index = 0;
+            int team2Index = 0;
+
+            for(int i=0; i < numberOfPlayers; i++)
+            {
+                Random random = new Random();
+                int choice = random.Next(0,2);
+
+                if(players[i] == null)
+                    continue;
+                
+                if(choice == 0 || team1Index < team1.Length) 
+                {
+                    team1[team1Index] = players[i];
+                    team1Index++;
+                }
+                else 
+                {
+                    team2[team2Index] = players[i];
+                    team2Index++;
+                }
+            }
+
+           await message.RemoveAllReactionsAsync(); 
+           UpdateGameMessage();
         }
 
         public async void UpdateGameMessage()

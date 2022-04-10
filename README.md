@@ -1,4 +1,4 @@
-[![Generic badge](https://img.shields.io/badge/Version-0.1-<COLOR>.svg)](https://shields.io/)
+[![Generic badge](https://img.shields.io/badge/Version-1.0-<COLOR>.svg)](https://shields.io/)
 
 # invitational
 

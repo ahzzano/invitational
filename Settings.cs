@@ -1,3 +1,5 @@
+using System;
+
 namespace invitational {
     class Settings {
         public static Settings instance = null; 
@@ -13,6 +15,8 @@ namespace invitational {
         public string queueImage;
         public string gameImage;
         public string winImage; 
+
+        public string[] maps;
 
         private Settings() {
             if(instance == null) {
@@ -30,6 +34,9 @@ namespace invitational {
             settings.queueImage = values.queueImage;
             settings.gameImage = values.gameImage;
             settings.winImage = values.winImage;
+            settings.maps = values.maps;
+
+            
 
             return Settings.instance;
         }
