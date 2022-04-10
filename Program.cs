@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.Json;
+using System.Collections.Generic;
 using Discord;
 using Discord.Net; 
 using Discord.WebSocket;
@@ -18,14 +19,15 @@ namespace invitational
 
     class Program
     {
+
         private DiscordSocketClient _client;
         private CommandService _commands; 
 
         public static Program instance; 
+        public List<Game> games = new List<Game>(); 
 
         public static Task Main(string[] args) {
             
-
             Program instance = new Program();
 
             if(Program.instance == null) {
@@ -43,6 +45,11 @@ namespace invitational
 
             // Instantiate the Settings
             Settings.Load(settingsValues);   
+        }
+
+        public void AddGame(Game game) 
+        {
+            games.Add(game);
         }
 
         public static DiscordSocketClient GetClient() => instance._client;
