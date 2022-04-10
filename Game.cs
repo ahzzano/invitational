@@ -47,21 +47,20 @@ namespace invitational {
             OnGameStart();
         }
 
-        private void OnGameEnd()
+        private async void OnGameEnd()
         {
             Program.GetClient().ReactionAdded -= OnReactionAdded;
             Program.GetClient().ReactionRemoved -= OnReactionRemoved;
-            message.DeleteAsync();
+            await message.DeleteAsync();
         
         }
 
-
-        private void OnGameStart()
+        private async void OnGameStart()
         {
-            
+           await message.RemoveAllReactionsAsync(); 
         }
 
-        private void OnGameCreate()
+        private async void OnGameCreate()
         {
             Program.GetClient().ReactionAdded += OnReactionAdded;
             Program.GetClient().ReactionRemoved += OnReactionRemoved;
@@ -87,7 +86,7 @@ namespace invitational {
 
             numberOfPlayers++;
 
-            UpdateGameMessage();
+            UpdateQueueMessage();
         }
 
         public async Task OnReactionRemoved(Cacheable<IUserMessage, ulong> _, Cacheable<IMessageChannel, ulong> __, SocketReaction reaction)
@@ -112,15 +111,16 @@ namespace invitational {
                 }
             }
 
-            UpdateGameMessage();
+            UpdateQueueMessage();
         }
 
-        public async void UpdateGameMessage()
+        public async void UpdateQueueMessage()
         {
-            await message.ModifyAsync(delegate(MessageProperties properties) {properties.Embed = GetGameMessage();});
+            await message.ModifyAsync(delegate(MessageProperties properties) {properties.Embed = GetQueueMessage();});
         }
+        
 
-        public Embed GetGameMessage() 
+        public Embed GetQueueMessage() 
         {
             EmbedBuilder embed = new EmbedBuilder()
             {

@@ -4,12 +4,12 @@ using System.Threading.Tasks;
 using System;
 
 namespace invitational {
-    public class CreateGameCommand: ModuleBase<SocketCommandContext>
+    public class StartGameCommand: ModuleBase<SocketCommandContext>
     {
-        [Command("create")]
-        [Summary("Starts a game")]
+        [Command("start")]
+        [Summary("starts the game")]
         [RequireBotPermission(GuildPermission.AddReactions)]
-        public async Task CreateGame(string teamSelection="random") 
+        public async Task StartGame() 
         {
             Game game = Program.instance.CreateGame();
             
