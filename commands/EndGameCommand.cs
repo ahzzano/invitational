@@ -10,10 +10,8 @@ namespace invitational {
         [Summary("ends the game")]
         public async Task EndGame(int gameId) 
         {
-            Game game = Program.instance.games[gameId];
-            game.EndGame();
-
-            
+            Program.instance.EndGame(gameId);
+            await ReplyAsync($"Ending Game #{gameId}");
         }
 
     }

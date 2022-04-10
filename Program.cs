@@ -100,6 +100,7 @@ namespace invitational
         {
             Game game = games[id];
             game.EndGame();
+            games.RemoveAt(id);
         }
     }
 }

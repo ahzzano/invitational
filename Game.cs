@@ -31,14 +31,18 @@ namespace invitational {
 
         public void EndGame()
         {
+            if(completed == true)
+                return;
+
             completed = true; 
-            started = true; 
             OnGameEnd();
         }
 
         public void StartGame()
         {
-            completed = false;
+            if(started == true)
+                return;
+
             started = true;
             OnGameStart();
         }
@@ -47,6 +51,8 @@ namespace invitational {
         {
             Program.GetClient().ReactionAdded -= OnReactionAdded;
             Program.GetClient().ReactionRemoved -= OnReactionRemoved;
+            message.DeleteAsync();
+        
         }
 
 
