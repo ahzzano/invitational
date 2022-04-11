@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Discord;
 using Discord.Net; 
 using Discord.WebSocket;
+using System.Linq;
 using Discord.Commands;
 
 using System.Threading.Tasks;
@@ -107,5 +108,33 @@ namespace invitational
             game.EndGame(teamWinner);
             games.RemoveAt(id);
         }
+
+
+        public bool IfPlayerInGame(SocketUser player)
+        {
+            foreach(Game game in games)
+            {
+                if(game.GetPlayers().Contains(player))
+                {
+                    return true;
+                }
+            }
+
+            return false; 
+        }
+
+        public Game GetGameOfPlayer(SocketUser player)
+        {
+            foreach(Game game in games)
+            {
+                if(game.GetPlayers().Contains(player))
+                {
+                    return game;
+                }
+            }
+
+            return null;            
+        }
     }
+
 }

@@ -5,25 +5,32 @@ using Discord;
 using Discord.WebSocket;
 using Discord.Rest;
 using Discord.Commands;
+using System.Collections;
+using System.Collections.Generic;
 using Discord.Net;
 using System.Linq;
 
 namespace invitational {
 
     class Game {
+        public enum GameType {
+            BO3,
+            BO1
+        }
+
         public int maxPlayers = Settings.instance.maxPlayers; 
         public bool completed = false;
         public bool started = false; 
         public Emoji joinEmote = new Emoji("👍");
         public RestUserMessage message;
+        public GameType gameType; 
         private ComponentBuilder componentBuilder;
         private SocketUser[] players; 
-
+        private List<string> availableMaps = Settings.instance.maps.ToList();
         private SocketUser[] team1;
         private SocketUser[] team2;
 
         public int id;
-
 
         private int numberOfPlayers = 0;
 
@@ -50,9 +57,9 @@ namespace invitational {
             if(started == true)
                 return;
 
-            started = true;
-
             OnGameStart();
+
+            started = true;
         }
 
         private async void OnGameEnd(int teamWinner)
@@ -80,10 +87,11 @@ namespace invitational {
         private async void OnGameStart()
         {
             AssignTeam();
-
-
-
         }
+
+        public SocketUser[] GetPlayers() => players;
+        
+    
 
         private async void OnGameCreate()
         {
