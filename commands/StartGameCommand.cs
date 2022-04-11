@@ -12,6 +12,8 @@ namespace invitational {
         public async Task StartGame(int gameId) 
         {
             Program.instance.games[gameId].StartGame();
+
+            await Task.CompletedTask;
         }
 
     }

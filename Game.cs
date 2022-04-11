@@ -18,6 +18,17 @@ namespace invitational {
             BO1
         }
 
+        public enum GamePhase {
+            PickBan,
+            InGame
+        }
+
+        public enum PickBanPhase
+        {
+            Team1,
+            Team2
+        }
+
         public int maxPlayers = Settings.instance.maxPlayers; 
         public bool completed = false;
         public bool started = false; 
@@ -29,6 +40,9 @@ namespace invitational {
         private List<string> availableMaps = Settings.instance.maps.ToList();
         private SocketUser[] team1;
         private SocketUser[] team2;
+        public GamePhase gamePhase;
+        public PickBanPhase pickBanPhase;
+        
 
         public int id;
 
@@ -40,7 +54,7 @@ namespace invitational {
             
             players = new SocketUser[maxPlayers];
 
-            OnGameCreate();
+            OnGameCreate().Start();
         }
 
         public void EndGame(int teamWinner)
@@ -54,6 +68,9 @@ namespace invitational {
 
         public void StartGame()
         {
+            gamePhase = GamePhase.PickBan;
+            pickBanPhase = PickBanPhase.Team1;
+
             if(started == true)
                 return;
 
@@ -87,16 +104,60 @@ namespace invitational {
         private async void OnGameStart()
         {
             AssignTeam();
+
+            await message.Channel.SendMessageAsync("Pick/Ban Phase is Starting");
+
+            await PickBan();
+
+            await message.Channel.SendMessageAsync("Game Starting, GLHF!");
         }
 
-        public SocketUser[] GetPlayers() => players;
-        
-    
+        private async Task PickBan()
+        {
+            await message.Channel.SendMessageAsync($"Map pick and bans are commencing...");
 
-        private async void OnGameCreate()
+            while(gamePhase == GamePhase.PickBan) {}
+        }
+
+        public void PickMap(string mapName)
+        {
+            
+        }
+
+        public async void BanMap(string mapName)
+        {
+            if(availableMaps.Remove(mapName))
+            {
+                if(pickBanPhase == PickBanPhase.Team1)
+                {
+                    pickBanPhase = PickBanPhase.Team2;
+                }
+                else {
+                    pickBanPhase = PickBanPhase.Team1;
+                }
+
+                await message.Channel.SendMessageAsync($"Banned {mapName}");
+
+                if(availableMaps.Count <= 1)
+                {
+                    await message.Channel.SendMessageAsync($"Last Map Available is {availableMaps[0]}");
+                    gamePhase = GamePhase.InGame;
+                }
+            }
+        }
+
+        public SocketUser[] GetTeam1() => team1;
+        public SocketUser[] GetTeam2() => team2;
+        public SocketUser[] GetPlayers() => players;
+        public string[] GetMaps() => availableMaps.ToArray();
+        public PickBanPhase GetPickBanPhase() => pickBanPhase;
+
+        private async Task OnGameCreate()
         {
             Program.GetClient().ReactionAdded += OnReactionAdded;
             Program.GetClient().ReactionRemoved += OnReactionRemoved;
+
+            await Task.CompletedTask;
         }
 
         public async Task OnReactionAdded(Cacheable<IUserMessage, ulong> _, Cacheable<IMessageChannel, ulong> __, SocketReaction reaction)
@@ -124,7 +185,7 @@ namespace invitational {
                 UpdateQueueMessage();
             }
 
-
+            await Task.CompletedTask;
         }
 
         public async Task OnReactionRemoved(Cacheable<IUserMessage, ulong> _, Cacheable<IMessageChannel, ulong> __, SocketReaction reaction)
@@ -153,8 +214,7 @@ namespace invitational {
 
                 UpdateQueueMessage();
             }
-
-
+            await Task.CompletedTask;
         }
 
         private async void AssignTeam()
