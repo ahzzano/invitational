@@ -59,7 +59,12 @@ namespace invitational {
             
             this.id = id;
 
-            OnGameCreate();
+            CreateGame();
+        }
+
+        private async void CreateGame()
+        {
+            await OnGameCreate();
         }
 
         public void EndGame(int teamWinner)
@@ -124,6 +129,8 @@ namespace invitational {
         private async Task PickBan()
         {
             while(gamePhase == GamePhase.PickBan) {}
+
+            await Task.CompletedTask;
         }
 
         public void PickMap(string mapName)
