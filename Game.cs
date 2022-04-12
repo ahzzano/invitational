@@ -210,11 +210,13 @@ namespace invitational {
                     }
 
                     gamePhase = GamePhase.InGame;
+
+                    return;
                 }
                 
                 availableBans--;
 
-                if(availableBans <= nextPickPhase && availableMaps.Count > 0)
+                if(availableBans <= nextPickPhase && availableMaps.Count > 1)
                 {
                     await mapsMessage.Channel.SendMessageAsync("Pick Phase");
                     pickBanPhase = PickBanPhase.MapPick;
