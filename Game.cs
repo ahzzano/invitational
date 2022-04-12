@@ -28,12 +28,14 @@ namespace invitational {
             Team1,
             Team2
         }
+        
 
         public int maxPlayers = Settings.instance.maxPlayers; 
         public bool completed = false;
         public bool started = false; 
         public Emoji joinEmote = new Emoji("👍");
         public RestUserMessage gameMessage;
+        public RestUserMessage mapsMessage; 
         public GameType gameType; 
         private ComponentBuilder componentBuilder;
         private SocketUser[] players; 
@@ -107,6 +109,8 @@ namespace invitational {
 
             await gameMessage.Channel.SendMessageAsync("Pick/Ban Phase is Starting");
 
+            mapsMessage = (RestUserMessage) await gameMessage.Channel.SendMessageAsync("", false, GetMapPoolMessage());
+
             await PickBan();
 
             await gameMessage.Channel.SendMessageAsync("Game Starting, GLHF!");
@@ -129,21 +133,25 @@ namespace invitational {
                
                 if(pickBanPhase == PickBanPhase.Team1)
                 {
-                    await gameMessage.Channel.SendMessageAsync("Team 1 is Banning");
+                    await gameMessage.Channel.SendMessageAsync($"Team 1 Banned {mapName}");
                     pickBanPhase = PickBanPhase.Team2;
                 }
                 else {
-                    await gameMessage.Channel.SendMessageAsync("Team 2 is Banning");
                     pickBanPhase = PickBanPhase.Team1;
+                    await gameMessage.Channel.SendMessageAsync($"Team 2 Banned {mapName}");
                 }
-
-                await gameMessage.Channel.SendMessageAsync($"Banned {mapName}");
 
                 if(availableMaps.Count <= 1)
                 {
                     await gameMessage.Channel.SendMessageAsync($"Last Map Available is {availableMaps[0]}");
                     gamePhase = GamePhase.InGame;
                 }
+
+                UpdateMapMessage();
+            }
+            else 
+            {
+                await gameMessage.Channel.SendMessageAsync("Map Name Invalid");
             }
         }
 
@@ -152,6 +160,7 @@ namespace invitational {
         public SocketUser[] GetPlayers() => players;
         public string[] GetMaps() => availableMaps.ToArray();
         public PickBanPhase GetPickBanPhase() => pickBanPhase;
+        public string GetMapPool() => String.Join(", ", availableMaps);
 
         private async Task OnGameCreate()
         {
@@ -261,13 +270,15 @@ namespace invitational {
         {
             await gameMessage.ModifyAsync(delegate(MessageProperties properties) {properties.Embed = GetGameMessage();});
         }
-        public string GetMapPool()
-        {
-            return String.Join(", ", availableMaps);
-        }
+
         public async void UpdateQueueMessage()
         {
             await gameMessage.ModifyAsync(delegate(MessageProperties properties) {properties.Embed = GetQueueMessage();});
+        }
+
+        public async void UpdateMapMessage()
+        {
+            await mapsMessage.ModifyAsync(delegate(MessageProperties properties) {properties.Embed = GetMapPoolMessage();});
         }
         public Embed GetQueueMessage() 
         {
@@ -285,6 +296,15 @@ namespace invitational {
             return embed.Build();
         }
         
+        public Embed GetMapPoolMessage()
+        {
+            EmbedBuilder embed = new EmbedBuilder();
+
+            embed.AddField("Available Maps", GetMapPool());
+
+            return embed.Build();
+        }
+
         public Embed GetGameMessage()
         {
             EmbedBuilder embed = new EmbedBuilder()
