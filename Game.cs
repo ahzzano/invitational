@@ -31,8 +31,8 @@ namespace invitational {
         
         public enum PickBanPhase
         {
-            Map,
-            Side
+            MapBan,
+            MapPick
         }
 
         public int maxPlayers = Settings.instance.maxPlayers; 
@@ -48,8 +48,14 @@ namespace invitational {
         private List<string> availableMaps = Settings.instance.maps.ToList();
         private SocketUser[] team1;
         private SocketUser[] team2;
+        private List<string> team1Picks = new List<string>();
+        private List<string> team2Picks = new List<string>();
+        private string decider; 
+        private int availableBans; 
         public GamePhase gamePhase;
-        public PickBanTurn pickBanPhase;
+        public PickBanTurn pickBanTurn;
+        public PickBanPhase pickBanPhase;
+        private int nextPickPhase;
         public int id;
 
         private int numberOfPlayers = 0;
@@ -61,7 +67,9 @@ namespace invitational {
             players = new SocketUser[maxPlayers];
             
             this.id = id;
-
+            
+            availableBans = availableMaps.Count - Settings.instance.gameType;
+            nextPickPhase = availableBans - 2;
             CreateGame();
         }
 
@@ -82,7 +90,7 @@ namespace invitational {
         public void StartGame()
         {
             gamePhase = GamePhase.PickBan;
-            pickBanPhase = PickBanTurn.Team1;
+            pickBanTurn = PickBanTurn.Team1;
             joinable = false; 
 
             if(started == true)
@@ -136,24 +144,20 @@ namespace invitational {
             await Task.CompletedTask;
         }
 
-        public void PickMap(string mapName)
-        {
-            //availableMaps.Remove(mapName);
-        }
-
-        public async void BanMap(string mapName)
+        public async void PickMap(string mapName)
         {
             if(availableMaps.Remove(mapName))
-            {
-               
-                if(pickBanPhase == PickBanTurn.Team1)
+            {      
+                if(pickBanTurn == PickBanTurn.Team1)
                 {
-                    await gameMessage.Channel.SendMessageAsync($"Team 1 Banned {mapName}");
-                    pickBanPhase = PickBanTurn.Team2;
+                    await gameMessage.Channel.SendMessageAsync($"Team 1 Picked {mapName}");
+                    team1Picks.Add(mapName);
+                    pickBanTurn = PickBanTurn.Team2;
                 }
                 else {
-                    pickBanPhase = PickBanTurn.Team1;
-                    await gameMessage.Channel.SendMessageAsync($"Team 2 Banned {mapName}");
+                    pickBanTurn = PickBanTurn.Team1;
+                    team2Picks.Add(mapName);
+                    await gameMessage.Channel.SendMessageAsync($"Team 2 Picked {mapName}");
                 }
 
                 if(availableMaps.Count <= 1)
@@ -161,6 +165,57 @@ namespace invitational {
                     await gameMessage.Channel.SendMessageAsync($"Last Map Available is {availableMaps[0]}");
                     gamePhase = GamePhase.InGame;
                 }
+
+                UpdateMapMessage();
+
+                if(availableBans <= 0 && availableBans == nextPickPhase)
+                {
+                    pickBanPhase = PickBanPhase.MapBan;
+                    nextPickPhase -= 2;
+                }
+
+                availableBans--;
+            }
+            else 
+            {
+                await gameMessage.Channel.SendMessageAsync("Map Name Invalid");
+            }
+        }
+
+        public async void BanMap(string mapName)
+        {
+            if(availableMaps.Remove(mapName))
+            {
+               
+                if(pickBanTurn == PickBanTurn.Team1)
+                {
+                    await gameMessage.Channel.SendMessageAsync($"Team 1 Banned {mapName}");
+                    pickBanTurn = PickBanTurn.Team2;
+                }
+                else {
+                    pickBanTurn = PickBanTurn.Team1;
+                    await gameMessage.Channel.SendMessageAsync($"Team 2 Banned {mapName}");
+                }
+
+                if(availableMaps.Count <= 1)
+                {
+                    await gameMessage.Channel.SendMessageAsync($"Last Map Available is {availableMaps[0]}");
+
+                    if(Settings.instance.gameType > 1)
+                    {
+                        decider = mapName;
+                    }
+
+                    gamePhase = GamePhase.InGame;
+                }
+                
+                if(availableBans <= 0 || availableBans == nextPickPhase)
+                {
+                    pickBanPhase = PickBanPhase.MapPick;
+                    nextPickPhase -= 2;
+                }
+
+                availableBans--;
 
                 UpdateMapMessage();
             }
@@ -174,7 +229,7 @@ namespace invitational {
         public SocketUser[] GetTeam2() => team2;
         public SocketUser[] GetPlayers() => players;
         public string[] GetMaps() => availableMaps.ToArray();
-        public PickBanTurn GetPickBanPhase() => pickBanPhase;
+        public PickBanTurn GetPickBanPhase() => pickBanTurn;
         public string GetMapPool() => String.Join(", ", availableMaps);
 
         private async Task OnGameCreate()
@@ -316,7 +371,14 @@ namespace invitational {
         {
             EmbedBuilder embed = new EmbedBuilder();
 
-            embed.AddField("Available Maps", GetMapPool());
+            if(Settings.instance.gameType > 1)
+            {
+                
+            }
+            else 
+            {
+                embed.AddField("Available Maps", GetMapPool());
+            }
 
             return embed.Build();
         }

@@ -9,8 +9,8 @@ namespace invitational
     {
         private bool IfTeamTurn(Game game)
         {
-            bool isTeam1 = game.GetTeam1().Contains(Context.User) && game.pickBanPhase == Game.PickBanTurn.Team1;
-            bool isTeam2 = game.GetTeam2().Contains(Context.User) && game.pickBanPhase == Game.PickBanTurn.Team2;
+            bool isTeam1 = game.GetTeam1().Contains(Context.User) && game.pickBanTurn == Game.PickBanTurn.Team1;
+            bool isTeam2 = game.GetTeam2().Contains(Context.User) && game.pickBanTurn == Game.PickBanTurn.Team2;
 
             return isTeam1 || isTeam2;
         }
