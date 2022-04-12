@@ -48,7 +48,7 @@ namespace invitational
         {
             if(!System.IO.File.Exists("settings.json"))
             {
-                string defaultSettings = System.IO.File.ReadAllText("defaultSettings.json");
+                string defaultSettings = System.IO.File.ReadAllText("./env/defaultSettings.json");
                 System.IO.File.WriteAllText("settings.json", defaultSettings);
                 Console.WriteLine("write the Discord token in the settings.json then re-run the program");
 
