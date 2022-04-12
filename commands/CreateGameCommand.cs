@@ -17,7 +17,7 @@ namespace invitational {
             
             game.gameMessage = message;
 
-            await message.AddReactionAsync(game.joinEmote);
+            await message.AddReactionAsync(game.joinGameEmote);
         }
 
     }
