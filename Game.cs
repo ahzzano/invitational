@@ -55,6 +55,8 @@ namespace invitational {
             componentBuilder = new ComponentBuilder();
             
             players = new SocketUser[maxPlayers];
+            
+            this.id = id;
 
             OnGameCreate();
         }
