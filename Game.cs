@@ -52,7 +52,6 @@ namespace invitational {
         public PickBanPhase pickBanPhase;
         private int nextPickPhase;
         public int id;
-
         private int numberOfPlayers = 0;
 
         public Game(int id) 
@@ -321,9 +320,7 @@ namespace invitational {
             for(int i=0; i < (int) (maxPlayers / 2); i += 2)
             {
                 Random random = new Random();
-                int choice = random.Next(0,2);
-                
-                //Console.WriteLine($"{players[i].Username}, {players[i + 1].Username}");
+                int choice = random.Next(0,2);     
 
                 if(choice == 0) 
                 {
@@ -382,15 +379,22 @@ namespace invitational {
         
         public Embed GetMapPoolMessage()
         {
-            EmbedBuilder embed = new EmbedBuilder();
+            EmbedBuilder embed = new EmbedBuilder()
+            {
+                Color = Color.Red
+            };
 
             if(Settings.instance.gameType > 1)
             {
-                embed.AddField("Available Maps", GetMapPool());
+                embed.AddField("Available Maps", GetMapPool())
+                    .AddField("Team 1 Picks", GetTeam1PicksString())
+                    .AddField("Team 2 Picks", GetTeam2PicksString())
+                    .WithCurrentTimestamp();
             }
             else 
             {
-                embed.AddField("Available Maps", GetMapPool());
+                embed.AddField("Available Maps", GetMapPool())
+                    .WithCurrentTimestamp();
             }
 
             return embed.Build();
@@ -452,6 +456,32 @@ namespace invitational {
             }
 
             return queue;   
+        }
+
+        private string GetTeam1PicksString()
+        {
+            string maps = "";
+
+            if(team1Picks.Count == 0)
+                maps = "None";
+
+            else
+                maps = String.Join(", ", team1Picks);
+            
+            return maps;
+        }
+
+        private string GetTeam2PicksString()
+        {
+            string maps = "";
+
+            if(team2Picks.Count == 0)
+                maps = "None";
+
+            else
+                maps = String.Join(", ", team2Picks);
+            
+            return maps;
         }
 
         private string GetTeam2String()
