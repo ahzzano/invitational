@@ -9,8 +9,8 @@ namespace invitational
     {
         private bool IfTeamTurn(Game game)
         {
-            bool isTeam1 = game.GetTeam1().Contains(Context.User) && game.pickBanPhase == Game.PickBanTurn.Team1;
-            bool isTeam2 = game.GetTeam2().Contains(Context.User) && game.pickBanPhase == Game.PickBanTurn.Team2;
+            bool isTeam1 = game.GetTeam1().Contains(Context.User) && game.pickBanTurn == Game.PickBanTurn.Team1;
+            bool isTeam2 = game.GetTeam2().Contains(Context.User) && game.pickBanTurn == Game.PickBanTurn.Team2;
 
             return isTeam1 || isTeam2;
         }
@@ -26,6 +26,10 @@ namespace invitational
 
             if(!IfTeamTurn(game))
                 return;
+
+            if(game.pickBanPhase != Game.PickBanPhase.MapBan)
+                return;
+
 
             if(game.GetMaps().Contains(mapName))
             {
@@ -45,6 +49,9 @@ namespace invitational
             Game game = Program.instance.GetGameOfPlayer(Context.User);
 
             if(!IfTeamTurn(game))
+                return;
+
+            if(game.pickBanPhase != Game.PickBanPhase.MapPick)
                 return;
 
             if(game.GetMaps().Contains(mapName))
