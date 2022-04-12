@@ -109,6 +109,7 @@ namespace invitational {
 
         private async void OnGameStart()
         {
+            await gameMessage.Channel.SendMessageAsync("Assigning Teams");
             AssignTeam();
 
             await gameMessage.Channel.SendMessageAsync("Pick/Ban Phase is Starting");
@@ -239,27 +240,28 @@ namespace invitational {
             int team1Index = 0;
             int team2Index = 0;
 
-            Console.WriteLine(team1.Length);
-            Console.WriteLine(team2.Length);
-
-            for(int i=0; i < (int) (numberOfPlayers / 2); i += 2)
+            for(int i=0; i < (int) (maxPlayers / 2); i += 2)
             {
                 Random random = new Random();
                 int choice = random.Next(0,2);
-
-                if(players[i] == null)
-                    continue;
                 
-                if(choice == 0 || team1Index < (int) (maxPlayers / 2) - 1) 
+                //Console.WriteLine($"{players[i].Username}, {players[i + 1].Username}");
+
+                if(choice == 0) 
                 {
-                    team1[team1Index] = players[i];
-                    team2[team2Index] = players[i + 1];
+                    if(players[i] != null)
+                        team1[team1Index] = players[i];
                     
+                    if(players[i+1] != null)
+                        team2[team2Index] = players[i + 1];
                 }
                 else 
                 {
-                    team2[team2Index] = players[i];
-                    team1[team1Index] = players[i + 1];
+                    if(players[i] != null)
+                        team2[team2Index] = players[i];
+                    
+                    if(players[i+1] != null)
+                        team1[team1Index] = players[i + 1];
                 }
 
                 team1Index++;
