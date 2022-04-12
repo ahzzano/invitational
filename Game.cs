@@ -33,7 +33,7 @@ namespace invitational {
         public bool completed = false;
         public bool started = false; 
         public Emoji joinEmote = new Emoji("👍");
-        public RestUserMessage message;
+        public RestUserMessage gameMessage;
         public GameType gameType; 
         private ComponentBuilder componentBuilder;
         private SocketUser[] players; 
@@ -98,18 +98,18 @@ namespace invitational {
                 .WithImageUrl(Settings.instance.winImage)
                 .WithCurrentTimestamp();
 
-            await message.Channel.SendMessageAsync("", false, embed.Build());
+            await gameMessage.Channel.SendMessageAsync("", false, embed.Build());
         }
 
         private async void OnGameStart()
         {
             AssignTeam();
 
-            await message.Channel.SendMessageAsync("Pick/Ban Phase is Starting");
+            await gameMessage.Channel.SendMessageAsync("Pick/Ban Phase is Starting");
 
             await PickBan();
 
-            await message.Channel.SendMessageAsync("Game Starting, GLHF!");
+            await gameMessage.Channel.SendMessageAsync("Game Starting, GLHF!");
         }
 
         private async Task PickBan()
@@ -129,19 +129,19 @@ namespace invitational {
                
                 if(pickBanPhase == PickBanPhase.Team1)
                 {
-                    await message.Channel.SendMessageAsync("Team 1 is Banning");
+                    await gameMessage.Channel.SendMessageAsync("Team 1 is Banning");
                     pickBanPhase = PickBanPhase.Team2;
                 }
                 else {
-                    await message.Channel.SendMessageAsync("Team 2 is Banning");
+                    await gameMessage.Channel.SendMessageAsync("Team 2 is Banning");
                     pickBanPhase = PickBanPhase.Team1;
                 }
 
-                await message.Channel.SendMessageAsync($"Banned {mapName}");
+                await gameMessage.Channel.SendMessageAsync($"Banned {mapName}");
 
                 if(availableMaps.Count <= 1)
                 {
-                    await message.Channel.SendMessageAsync($"Last Map Available is {availableMaps[0]}");
+                    await gameMessage.Channel.SendMessageAsync($"Last Map Available is {availableMaps[0]}");
                     gamePhase = GamePhase.InGame;
                 }
             }
@@ -163,7 +163,7 @@ namespace invitational {
 
         public async Task OnReactionAdded(Cacheable<IUserMessage, ulong> _, Cacheable<IMessageChannel, ulong> __, SocketReaction reaction)
         {
-            if(reaction.MessageId != message.Id || ((SocketUser) reaction.User).IsBot)
+            if(reaction.MessageId != gameMessage.Id || ((SocketUser) reaction.User).IsBot)
             {
                 return;
             }
@@ -191,7 +191,7 @@ namespace invitational {
 
         public async Task OnReactionRemoved(Cacheable<IUserMessage, ulong> _, Cacheable<IMessageChannel, ulong> __, SocketReaction reaction)
         {
-            if(reaction.MessageId != message.Id || ((SocketUser) reaction.User).IsBot)
+            if(reaction.MessageId != gameMessage.Id || ((SocketUser) reaction.User).IsBot)
             {
                 return;
             }
@@ -253,13 +253,13 @@ namespace invitational {
                 team2Index++;
             }
 
-           await message.RemoveAllReactionsAsync(); 
+           await gameMessage.RemoveAllReactionsAsync(); 
            UpdateGameMessage();
         }
 
         public async void UpdateGameMessage()
         {
-            await message.ModifyAsync(delegate(MessageProperties properties) {properties.Embed = GetGameMessage();});
+            await gameMessage.ModifyAsync(delegate(MessageProperties properties) {properties.Embed = GetGameMessage();});
         }
         public string GetMapPool()
         {
@@ -267,7 +267,7 @@ namespace invitational {
         }
         public async void UpdateQueueMessage()
         {
-            await message.ModifyAsync(delegate(MessageProperties properties) {properties.Embed = GetQueueMessage();});
+            await gameMessage.ModifyAsync(delegate(MessageProperties properties) {properties.Embed = GetQueueMessage();});
         }
         public Embed GetQueueMessage() 
         {
