@@ -168,13 +168,16 @@ namespace invitational {
 
                 UpdateMapMessage();
 
-                if(availableBans <= 0 && availableBans == nextPickPhase)
+                availableBans--;
+
+                if(availableBans <= nextPickPhase)
                 {
+                    await mapsMessage.Channel.SendMessageAsync("Ban Phase");
                     pickBanPhase = PickBanPhase.MapBan;
+
                     nextPickPhase -= 2;
                 }
 
-                availableBans--;
             }
             else 
             {
@@ -209,13 +212,17 @@ namespace invitational {
                     gamePhase = GamePhase.InGame;
                 }
                 
-                if(availableBans <= 0 || availableBans == nextPickPhase)
+                availableBans--;
+
+                if(availableBans <= nextPickPhase && availableMaps.Count > 0)
                 {
+                    await mapsMessage.Channel.SendMessageAsync("Pick Phase");
                     pickBanPhase = PickBanPhase.MapPick;
+
                     nextPickPhase -= 2;
                 }
 
-                availableBans--;
+                
 
                 UpdateMapMessage();
             }
