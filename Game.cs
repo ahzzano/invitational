@@ -33,6 +33,7 @@ namespace invitational {
         public int maxPlayers = Settings.instance.maxPlayers; 
         public bool completed = false;
         public bool started = false; 
+        private bool joinable = true;
         public Emoji joinEmote = new Emoji("👍");
         public RestUserMessage gameMessage;
         public RestUserMessage mapsMessage; 
@@ -74,14 +75,14 @@ namespace invitational {
         {
             gamePhase = GamePhase.PickBan;
             pickBanPhase = PickBanPhase.Team1;
-            started = true;
+            joinable = false; 
 
             if(started == true)
                 return;
 
             OnGameStart();
 
-            
+            started = true;
         }
 
         private async void OnGameEnd(int teamWinner)
@@ -180,7 +181,7 @@ namespace invitational {
                 return;
             }
 
-            if(reaction.Emote.Name == joinEmote.Name && started == false)
+            if(reaction.Emote.Name == joinEmote.Name && joinable == true)
             {
                 SocketUser user = (SocketUser) reaction.User;
 
@@ -208,7 +209,7 @@ namespace invitational {
                 return;
             }
 
-            if(reaction.Emote.Name == joinEmote.Name && started == false)
+            if(reaction.Emote.Name == joinEmote.Name && joinable == true)
             {
                 SocketUser user = (SocketUser) reaction.User;
 
