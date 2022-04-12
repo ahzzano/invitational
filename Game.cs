@@ -114,8 +114,6 @@ namespace invitational {
 
         private async Task PickBan()
         {
-            await message.Channel.SendMessageAsync($"Map pick and bans are commencing...");
-
             while(gamePhase == GamePhase.PickBan) {}
         }
 
@@ -256,7 +254,10 @@ namespace invitational {
         {
             await message.ModifyAsync(delegate(MessageProperties properties) {properties.Embed = GetGameMessage();});
         }
-
+        public string GetMapPool()
+        {
+            return String.Join(", ", availableMaps);
+        }
         public async void UpdateQueueMessage()
         {
             await message.ModifyAsync(delegate(MessageProperties properties) {properties.Embed = GetQueueMessage();});
@@ -270,6 +271,7 @@ namespace invitational {
 
             embed.AddField($"Game {id}", $"Game #{id} has been initiated, Join or Leave")
                 .AddField("Queue", GetQueueString())
+                .AddField("Maps", GetMapPool())
                 .WithCurrentTimestamp()
                 .WithImageUrl(Settings.instance.queueImage);
 
@@ -286,6 +288,7 @@ namespace invitational {
             embed.AddField($"Game {id}", $"Game #{id} is now starting")
                 .AddField("Team1", GetTeam1String())
                 .AddField("Team2", GetTeam2String())
+                .AddField("Maps", GetMapPool())
                 .WithCurrentTimestamp()
                 .WithImageUrl(Settings.instance.gameImage);
 
