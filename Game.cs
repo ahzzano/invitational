@@ -54,7 +54,7 @@ namespace invitational {
             
             players = new SocketUser[maxPlayers];
 
-            OnGameCreate().Start();
+            OnGameCreate();
         }
 
         public void EndGame(int teamWinner)
