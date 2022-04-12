@@ -27,6 +27,10 @@ namespace invitational
             if(!IfTeamTurn(game))
                 return;
 
+            if(game.pickBanPhase != Game.PickBanPhase.MapBan)
+                return;
+
+
             if(game.GetMaps().Contains(mapName))
             {
                 game.BanMap(mapName);
@@ -45,6 +49,9 @@ namespace invitational
             Game game = Program.instance.GetGameOfPlayer(Context.User);
 
             if(!IfTeamTurn(game))
+                return;
+
+            if(game.pickBanPhase != Game.PickBanPhase.MapPick)
                 return;
 
             if(game.GetMaps().Contains(mapName))
