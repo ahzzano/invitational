@@ -23,12 +23,17 @@ namespace invitational {
             InGame
         }
 
-        public enum PickBanPhase
+        public enum PickBanTurn
         {
             Team1,
             Team2
         }
         
+        public enum PickBanPhase
+        {
+            Map,
+            Side
+        }
 
         public int maxPlayers = Settings.instance.maxPlayers; 
         public bool completed = false;
@@ -44,9 +49,7 @@ namespace invitational {
         private SocketUser[] team1;
         private SocketUser[] team2;
         public GamePhase gamePhase;
-        public PickBanPhase pickBanPhase;
-        
-
+        public PickBanTurn pickBanPhase;
         public int id;
 
         private int numberOfPlayers = 0;
@@ -79,7 +82,7 @@ namespace invitational {
         public void StartGame()
         {
             gamePhase = GamePhase.PickBan;
-            pickBanPhase = PickBanPhase.Team1;
+            pickBanPhase = PickBanTurn.Team1;
             joinable = false; 
 
             if(started == true)
@@ -143,13 +146,13 @@ namespace invitational {
             if(availableMaps.Remove(mapName))
             {
                
-                if(pickBanPhase == PickBanPhase.Team1)
+                if(pickBanPhase == PickBanTurn.Team1)
                 {
                     await gameMessage.Channel.SendMessageAsync($"Team 1 Banned {mapName}");
-                    pickBanPhase = PickBanPhase.Team2;
+                    pickBanPhase = PickBanTurn.Team2;
                 }
                 else {
-                    pickBanPhase = PickBanPhase.Team1;
+                    pickBanPhase = PickBanTurn.Team1;
                     await gameMessage.Channel.SendMessageAsync($"Team 2 Banned {mapName}");
                 }
 
@@ -171,7 +174,7 @@ namespace invitational {
         public SocketUser[] GetTeam2() => team2;
         public SocketUser[] GetPlayers() => players;
         public string[] GetMaps() => availableMaps.ToArray();
-        public PickBanPhase GetPickBanPhase() => pickBanPhase;
+        public PickBanTurn GetPickBanPhase() => pickBanPhase;
         public string GetMapPool() => String.Join(", ", availableMaps);
 
         private async Task OnGameCreate()
