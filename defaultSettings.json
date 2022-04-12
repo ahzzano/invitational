@@ -1,0 +1,18 @@
+{
+    "token": "insert token here",
+    "maxPlayers": 10,
+    "maxTeams": 2,
+    "commandPrefix": "!",
+    "maps": [
+        "Fracture",
+        "Breeze",
+        "Icebox",
+        "Bind",
+        "Haven",
+        "Split",
+        "Ascent"
+    ],
+    "queueImage": "https://i.pinimg.com/originals/21/04/3a/21043a9e53361d43aebe097032a75238.gif",
+    "gameImage": "https://c.tenor.com/daiBJ_hoDBsAAAAC/monogatari-nadeko-sengoku.gif",
+    "winImage": "https://c.tenor.com/TWGLigFdw40AAAAC/ougi-oshino-ougi.gif"
+}
