@@ -7,12 +7,14 @@ namespace invitational {
     public class CreateGameCommand: ModuleBase<SocketCommandContext>
     {
         [Command("create")]
-        [Summary("Starts a game")]
+        [Summary("creates a game")]
         [RequireBotPermission(GuildPermission.AddReactions)]
-        public async Task CreateGame(string teamSelection="random") 
+        public async Task CreateGame() 
         {
             Game game = Program.instance.CreateGame();
             
+            Console.WriteLine("aa");
+
             var message = await Context.Channel.SendMessageAsync("", false, game.GetQueueMessage());
             
             game.message = message;

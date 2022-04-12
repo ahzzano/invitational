@@ -121,7 +121,7 @@ namespace invitational {
 
         public void PickMap(string mapName)
         {
-            
+            //availableMaps.Remove(mapName);
         }
 
         public async void BanMap(string mapName)
