@@ -128,11 +128,14 @@ namespace invitational {
         {
             if(availableMaps.Remove(mapName))
             {
+               
                 if(pickBanPhase == PickBanPhase.Team1)
                 {
+                    await message.Channel.SendMessageAsync("Team 1 is Banning");
                     pickBanPhase = PickBanPhase.Team2;
                 }
                 else {
+                    await message.Channel.SendMessageAsync("Team 2 is Banning");
                     pickBanPhase = PickBanPhase.Team1;
                 }
 

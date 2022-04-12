@@ -12,8 +12,6 @@ namespace invitational {
         public async Task CreateGame() 
         {
             Game game = Program.instance.CreateGame();
-            
-            Console.WriteLine("aa");
 
             var message = await Context.Channel.SendMessageAsync("", false, game.GetQueueMessage());
             
