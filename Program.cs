@@ -44,13 +44,20 @@ namespace invitational
             return instance.RunBotAsync();
         }
 
-        private void LoadSettings() {
+        private void LoadSettings() 
+        {
+            if(!System.IO.File.Exists("settings.json"))
+            {
+                string defaultSettings = System.IO.File.ReadAllText("defaultSettings.json");
+                System.IO.File.WriteAllText("settings.json", defaultSettings);
+                Console.WriteLine("write the Discord token in the settings.json then re-run the program");
 
-            // Load the settings.json file
+                Environment.Exit(0);
+            }
+        
             string settingsString = System.IO.File.ReadAllText("settings.json");
             SettingsFile settingsValues = JsonSerializer.Deserialize<SettingsFile>(settingsString);
 
-            // Instantiate the Settings
             Settings.Load(settingsValues);   
         }
 
