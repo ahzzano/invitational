@@ -15,7 +15,7 @@ namespace invitational {
 
             var message = await Context.Channel.SendMessageAsync("", false, game.GetQueueMessage());
             
-            game.message = message;
+            game.gameMessage = message;
 
             await message.AddReactionAsync(game.joinEmote);
         }
