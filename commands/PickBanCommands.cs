@@ -39,7 +39,20 @@ namespace invitational
         [Summary("pick a map")]
         public async Task PickMap(string mapName)
         {
+            if(!Program.instance.IfPlayerInGame(Context.User))
+                return;
 
+            Game game = Program.instance.GetGameOfPlayer(Context.User);
+
+            if(!IfTeamTurn(game))
+                return;
+
+            if(game.GetMaps().Contains(mapName))
+            {
+                game.PickMap(mapName);
+            }       
+
+            await Task.CompletedTask;
         }
     }
 }
