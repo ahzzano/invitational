@@ -74,13 +74,14 @@ namespace invitational {
         {
             gamePhase = GamePhase.PickBan;
             pickBanPhase = PickBanPhase.Team1;
+            started = true;
 
             if(started == true)
                 return;
 
             OnGameStart();
 
-            started = true;
+            
         }
 
         private async void OnGameEnd(int teamWinner)
@@ -179,7 +180,7 @@ namespace invitational {
                 return;
             }
 
-            if(reaction.Emote.Name == joinEmote.Name)
+            if(reaction.Emote.Name == joinEmote.Name && started == false)
             {
                 SocketUser user = (SocketUser) reaction.User;
 
@@ -207,7 +208,7 @@ namespace invitational {
                 return;
             }
 
-            if(reaction.Emote.Name == joinEmote.Name)
+            if(reaction.Emote.Name == joinEmote.Name && started == false)
             {
                 SocketUser user = (SocketUser) reaction.User;
 
