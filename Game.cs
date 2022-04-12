@@ -221,12 +221,15 @@ namespace invitational {
         private async void AssignTeam()
         {
             team1 = new SocketUser[(int) players.Length / 2];
-            team2 = new SocketUser[players.Length - ((int) players.Length / 2) + 1];
+            team2 = new SocketUser[players.Length - ((int) players.Length / 2)];
 
             int team1Index = 0;
             int team2Index = 0;
 
-            for(int i=0; i < numberOfPlayers; i++)
+            Console.WriteLine(team1.Length);
+            Console.WriteLine(team2.Length);
+
+            for(int i=0; i < (int) (numberOfPlayers / 2); i += 2)
             {
                 Random random = new Random();
                 int choice = random.Next(0,2);
@@ -237,13 +240,17 @@ namespace invitational {
                 if(choice == 0 || team1Index < (int) (maxPlayers / 2) - 1) 
                 {
                     team1[team1Index] = players[i];
-                    team1Index++;
+                    team2[team2Index] = players[i + 1];
+                    
                 }
                 else 
                 {
                     team2[team2Index] = players[i];
-                    team2Index++;
+                    team1[team1Index] = players[i + 1];
                 }
+
+                team1Index++;
+                team2Index++;
             }
 
            await message.RemoveAllReactionsAsync(); 
