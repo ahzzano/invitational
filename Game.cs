@@ -13,10 +13,6 @@ using System.Linq;
 namespace invitational {
 
     class Game {
-        public enum GameType {
-            BO3,
-            BO1
-        }
 
         public enum GamePhase {
             PickBan,
@@ -42,7 +38,6 @@ namespace invitational {
         public Emoji joinGameEmote = new Emoji("👍");
         public RestUserMessage gameMessage;
         public RestUserMessage mapsMessage; 
-        public GameType gameType; 
         private ComponentBuilder componentBuilder;
         private SocketUser[] players; 
         private List<string> availableMaps = Settings.instance.maps.ToList();
@@ -70,6 +65,7 @@ namespace invitational {
             
             availableBans = availableMaps.Count - Settings.instance.gameType;
             nextPickPhase = availableBans - 2;
+
             CreateGame();
         }
 
@@ -170,14 +166,15 @@ namespace invitational {
 
                 availableBans--;
 
-                if(availableBans <= nextPickPhase)
+                if(availableBans == nextPickPhase && availableMaps.Count > 1)
                 {
                     await mapsMessage.Channel.SendMessageAsync("Ban Phase");
                     pickBanPhase = PickBanPhase.MapBan;
-
+                    
                     nextPickPhase -= 2;
                 }
 
+                
             }
             else 
             {
@@ -212,20 +209,27 @@ namespace invitational {
                     gamePhase = GamePhase.InGame;
 
                     return;
-                }
-                
+                }    
+
                 availableBans--;
 
-                if(availableBans <= nextPickPhase && availableMaps.Count > 1)
+                if(Settings.instance.gameType > 1)
                 {
-                    await mapsMessage.Channel.SendMessageAsync("Pick Phase");
-                    pickBanPhase = PickBanPhase.MapPick;
+                    if(availableBans == nextPickPhase && availableMaps.Count > 1 && availableBans > 0 && nextPickPhase > 0)
+                    {
+                        await mapsMessage.Channel.SendMessageAsync("Pick Phase");
+                        pickBanPhase = PickBanPhase.MapPick;
 
-                    nextPickPhase -= 2;
+                        nextPickPhase -= 2;
+                    }
+
+                    if(availableBans <= 0 && availableMaps.Count > 1 && nextPickPhase > 0)
+                    {
+                        pickBanPhase = PickBanPhase.MapPick;
+                        await mapsMessage.Channel.SendMessageAsync("Pick Phase");
+                    }
                 }
-
-                
-
+            
                 UpdateMapMessage();
             }
             else 
@@ -382,7 +386,7 @@ namespace invitational {
 
             if(Settings.instance.gameType > 1)
             {
-                
+                embed.AddField("Available Maps", GetMapPool());
             }
             else 
             {

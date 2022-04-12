@@ -37,7 +37,7 @@ namespace invitational {
             settings.winImage = values.winImage;
             settings.maps = values.maps;
 
-            settings.gameType = values.gameType;
+            settings.gameType = values.gameMode;
 
             return Settings.instance;
         }
