@@ -30,5 +30,12 @@ namespace invitational
 
             await Task.CompletedTask;
         }
+
+        [Command("pickm")]
+        [Summary("pick a map")]
+        public async Task PickMap(string mapName)
+        {
+            
+        }
     }
 }
