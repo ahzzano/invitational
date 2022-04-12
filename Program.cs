@@ -21,6 +21,7 @@ namespace invitational
         public string gameImage {get; set;}
         public string winImage {get; set;}
         public string[] maps {get; set;}
+        public int gameType {get; set;}
     }
 
     class Program

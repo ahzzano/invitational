@@ -17,6 +17,7 @@ namespace invitational {
         public string winImage; 
 
         public string[] maps;
+        public int gameType; 
 
         private Settings() {
             if(instance == null) {
@@ -36,7 +37,7 @@ namespace invitational {
             settings.winImage = values.winImage;
             settings.maps = values.maps;
 
-            
+            settings.gameType = values.gameType;
 
             return Settings.instance;
         }
