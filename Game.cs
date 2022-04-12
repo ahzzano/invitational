@@ -39,7 +39,7 @@ namespace invitational {
         public bool completed = false;
         public bool started = false; 
         private bool joinable = true;
-        public Emoji joinEmote = new Emoji("👍");
+        public Emoji joinGameEmote = new Emoji("👍");
         public RestUserMessage gameMessage;
         public RestUserMessage mapsMessage; 
         public GameType gameType; 
@@ -192,7 +192,7 @@ namespace invitational {
                 return;
             }
 
-            if(reaction.Emote.Name == joinEmote.Name && joinable == true)
+            if(reaction.Emote.Name == joinGameEmote.Name && joinable == true)
             {
                 SocketUser user = (SocketUser) reaction.User;
 
@@ -220,7 +220,7 @@ namespace invitational {
                 return;
             }
 
-            if(reaction.Emote.Name == joinEmote.Name && joinable == true)
+            if(reaction.Emote.Name == joinGameEmote.Name && joinable == true)
             {
                 SocketUser user = (SocketUser) reaction.User;
 
