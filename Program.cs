@@ -94,17 +94,22 @@ namespace invitational
             await Task.Delay(-1);
         }
 
+        private async Task CLI()
+        {
+            
+        }
+
         private Task Log(LogMessage message) 
         {
             Console.WriteLine(message.ToString());
             return Task.CompletedTask;
         }
 
-        public Game CreateGame()
+        public Game CreateGame(SocketGuild guild)
         {
             int gameID = games.Count;
 
-            Game game = new Game(gameID);
+            Game game = new Game(gameID, guild);
             games.Add(game);
             return game;
         }

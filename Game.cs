@@ -53,8 +53,9 @@ namespace invitational {
         private int nextPickPhase;
         public int id;
         private int numberOfPlayers = 0;
+        private SocketGuild guild;
 
-        public Game(int id) 
+        public Game(int id, SocketGuild guild) 
         {
             componentBuilder = new ComponentBuilder();
             
