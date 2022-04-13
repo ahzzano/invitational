@@ -22,6 +22,7 @@ namespace invitational
         public string winImage {get; set;}
         public string[] maps {get; set;}
         public int gameMode {get; set;}
+        public string mapImage {get; set;}
     }
 
     class Program
@@ -74,8 +75,6 @@ namespace invitational
 
         public async Task RunBotAsync()
         {
-            Console.WriteLine(games.Count);
-
             LoadSettings();
 
             _client = new DiscordSocketClient();

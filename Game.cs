@@ -389,6 +389,7 @@ namespace invitational {
                 embed.AddField("Available Maps", GetMapPool())
                     .AddField("Team 1 Picks", GetTeam1PicksString())
                     .AddField("Team 2 Picks", GetTeam2PicksString())
+                    .WithImageUrl(Settings.instance.mapImage)
                     .WithCurrentTimestamp();
             }
             else 
