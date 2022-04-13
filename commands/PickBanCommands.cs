@@ -16,6 +16,7 @@ namespace invitational
         }
 
         [Command("banm")]
+        [Alias("bm")]
         [Summary("Ban a map")]
         public async Task BanMap(string mapName)
         {      
@@ -40,6 +41,7 @@ namespace invitational
         }
 
         [Command("pickm")]
+        [Alias("pm")]
         [Summary("pick a map")]
         public async Task PickMap(string mapName)
         {
