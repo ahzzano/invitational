@@ -395,6 +395,7 @@ namespace invitational {
             else 
             {
                 embed.AddField("Available Maps", GetMapPool())
+                    .WithImageUrl(Settings.instance.mapImage)
                     .WithCurrentTimestamp();
             }
 
