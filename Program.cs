@@ -86,24 +86,23 @@ namespace invitational
 
             _commandHandler = new CommandHandler();
             
-            Task.Run(CLI);
-
             await _commandHandler.RegisterCommandsAsync();
 
             await _client.LoginAsync(TokenType.Bot, token);
             await _client.StartAsync();
+
+            Task.Run(CLI);
 
             await Task.Delay(-1);
         }
 
         private async Task CLI()
         {
-            Console.Write(">>");
-            string inputs = Console.ReadLine();
-            
-            Console.WriteLine(inputs);
-
-            await Task.CompletedTask;
+            while(true)
+            {
+                Console.Write(">>");
+                string inputs = Console.ReadLine();
+            }
         }
 
         private Task Log(LogMessage message) 
