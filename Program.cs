@@ -85,6 +85,8 @@ namespace invitational
             string token = Settings.GetDiscordToken();
 
             _commandHandler = new CommandHandler();
+            
+            Task.Run(CLI);
 
             await _commandHandler.RegisterCommandsAsync();
 
@@ -96,7 +98,12 @@ namespace invitational
 
         private async Task CLI()
         {
+            Console.Write(">>");
+            string inputs = Console.ReadLine();
             
+            Console.WriteLine(inputs);
+
+            await Task.CompletedTask;
         }
 
         private Task Log(LogMessage message) 
