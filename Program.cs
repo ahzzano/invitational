@@ -142,6 +142,15 @@ namespace invitational
 
             return null;            
         }
+
+        public EmbedFooterBuilder GetBotFooter()
+        {
+            EmbedFooterBuilder footer = new EmbedFooterBuilder();
+
+            footer.WithText("[source](https://github.com/ahzzano/invitational.git)");
+
+            return footer;
+        }
     }
 
 }
