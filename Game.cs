@@ -411,7 +411,7 @@ namespace invitational {
                 .AddField("Team1", GetTeam1String())
                 .AddField("Team2", GetTeam2String())
                 .AddField("Maps", GetMapPool())
-                .AddField("How To Map Pick/Ban", "Type !banm <mapName> to ban a map")
+                .AddField("How To Map Pick/Ban", "Type !banm <mapName> to ban a map\nType !pickm to pick a map")
                 .WithCurrentTimestamp()
                 .WithImageUrl(Settings.instance.gameImage);
 
