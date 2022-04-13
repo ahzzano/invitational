@@ -429,7 +429,7 @@ namespace invitational {
                 if(players[i] == null)
                     continue;
 
-                queue += $"{players[i].Username}\n";
+                queue += $"{players[i].Mention}\n";
             }
 
             if(queue == "")
@@ -449,7 +449,7 @@ namespace invitational {
                 if(team1[i] == null)
                     continue;
 
-                queue += $"{team1[i].Username}\n";
+                queue += $"{team1[i].Mention}\n";
             }
 
             if(queue == "")
@@ -495,7 +495,7 @@ namespace invitational {
                 if(team2[i] == null)
                     continue;
 
-                queue += $"{team2[i].Username}\n";
+                queue += $"{team2[i].Mention}\n";
             }
 
             if(queue == "")
