@@ -91,8 +91,6 @@ namespace invitational
             await _client.LoginAsync(TokenType.Bot, token);
             await _client.StartAsync();
 
-            Task.Run(CLI);
-
             await Task.Delay(-1);
         }
 
