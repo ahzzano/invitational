@@ -53,8 +53,9 @@ namespace invitational {
         private int nextPickPhase;
         public int id;
         private int numberOfPlayers = 0;
+        private SocketGuild guild;
 
-        public Game(int id) 
+        public Game(int id, SocketGuild guild) 
         {
             componentBuilder = new ComponentBuilder();
             
@@ -389,11 +390,13 @@ namespace invitational {
                 embed.AddField("Available Maps", GetMapPool())
                     .AddField("Team 1 Picks", GetTeam1PicksString())
                     .AddField("Team 2 Picks", GetTeam2PicksString())
+                    .WithImageUrl(Settings.instance.mapImage)
                     .WithCurrentTimestamp();
             }
             else 
             {
                 embed.AddField("Available Maps", GetMapPool())
+                    .WithImageUrl(Settings.instance.mapImage)
                     .WithCurrentTimestamp();
             }
 
@@ -411,7 +414,7 @@ namespace invitational {
                 .AddField("Team1", GetTeam1String())
                 .AddField("Team2", GetTeam2String())
                 .AddField("Maps", GetMapPool())
-                .AddField("How To Map Pick/Ban", "Type !banm <mapName> to ban a map")
+                .AddField("How To Map Pick/Ban", "Type !banm <mapName> to ban a map\nType !pickm to pick a map")
                 .WithCurrentTimestamp()
                 .WithImageUrl(Settings.instance.gameImage);
 
@@ -427,7 +430,7 @@ namespace invitational {
                 if(players[i] == null)
                     continue;
 
-                queue += $"{players[i].Username}\n";
+                queue += $"{players[i].Mention}\n";
             }
 
             if(queue == "")
@@ -447,7 +450,7 @@ namespace invitational {
                 if(team1[i] == null)
                     continue;
 
-                queue += $"{team1[i].Username}\n";
+                queue += $"{team1[i].Mention}\n";
             }
 
             if(queue == "")
@@ -493,7 +496,7 @@ namespace invitational {
                 if(team2[i] == null)
                     continue;
 
-                queue += $"{team2[i].Username}\n";
+                queue += $"{team2[i].Mention}\n";
             }
 
             if(queue == "")

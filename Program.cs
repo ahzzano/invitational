@@ -22,6 +22,7 @@ namespace invitational
         public string winImage {get; set;}
         public string[] maps {get; set;}
         public int gameMode {get; set;}
+        public string mapImage {get; set;}
     }
 
     class Program
@@ -74,8 +75,6 @@ namespace invitational
 
         public async Task RunBotAsync()
         {
-            Console.WriteLine(games.Count);
-
             LoadSettings();
 
             _client = new DiscordSocketClient();
@@ -86,7 +85,7 @@ namespace invitational
             string token = Settings.GetDiscordToken();
 
             _commandHandler = new CommandHandler();
-
+            
             await _commandHandler.RegisterCommandsAsync();
 
             await _client.LoginAsync(TokenType.Bot, token);
@@ -95,17 +94,26 @@ namespace invitational
             await Task.Delay(-1);
         }
 
+        private async Task CLI()
+        {
+            while(true)
+            {
+                Console.Write(">>");
+                string inputs = Console.ReadLine();
+            }
+        }
+
         private Task Log(LogMessage message) 
         {
             Console.WriteLine(message.ToString());
             return Task.CompletedTask;
         }
 
-        public Game CreateGame()
+        public Game CreateGame(SocketGuild guild)
         {
             int gameID = games.Count;
 
-            Game game = new Game(gameID);
+            Game game = new Game(gameID, guild);
             games.Add(game);
             return game;
         }
@@ -142,6 +150,15 @@ namespace invitational
             }
 
             return null;            
+        }
+
+        public EmbedFooterBuilder GetBotFooter()
+        {
+            EmbedFooterBuilder footer = new EmbedFooterBuilder();
+
+            footer.WithText("[source](https://github.com/ahzzano/invitational.git)");
+
+            return footer;
         }
     }
 

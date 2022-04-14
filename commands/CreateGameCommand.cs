@@ -11,7 +11,7 @@ namespace invitational {
         [RequireBotPermission(GuildPermission.AddReactions)]
         public async Task CreateGame() 
         {
-            Game game = Program.instance.CreateGame();
+            Game game = Program.instance.CreateGame(Context.Guild);
 
             var message = await Context.Channel.SendMessageAsync("", false, game.GetQueueMessage());
             

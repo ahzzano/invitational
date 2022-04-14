@@ -6,7 +6,6 @@ namespace invitational {
 
         // Game Settings
         public int maxPlayers;
-        public int maxTeams;
 
         // Bot Settings
         private string Token; 
@@ -15,6 +14,7 @@ namespace invitational {
         public string queueImage;
         public string gameImage;
         public string winImage; 
+        public string mapImage;
 
         public string[] maps;
         public int gameType; 
@@ -29,7 +29,6 @@ namespace invitational {
             Settings settings = new Settings();
             settings.Token = values.token;
             settings.maxPlayers = values.maxPlayers;
-            settings.maxTeams = values.maxTeams;
             settings.commandPrefix = values.commandPrefix;
 
             settings.queueImage = values.queueImage;
@@ -38,6 +37,7 @@ namespace invitational {
             settings.maps = values.maps;
 
             settings.gameType = values.gameMode;
+            settings.mapImage = values.mapImage;
 
             return Settings.instance;
         }

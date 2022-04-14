@@ -6,7 +6,7 @@ using System;
 namespace invitational {
     public class StartGameCommand: ModuleBase<SocketCommandContext>
     {
-        [Command("start")]
+        [Command("start")]       
         [Summary("starts the game")]
         [RequireBotPermission(GuildPermission.AddReactions)]
         public async Task StartGame(int gameId) 
