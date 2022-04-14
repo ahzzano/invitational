@@ -1,8 +1,8 @@
 {
-    "token": "insert token here",
+    "token": "OTYyMzIwNjcwMzQ2MzE3ODY1.YlF09g.f4W-7iJ86MQTnPNi96-cRpTqCGE",
     "maxPlayers": 10,
-    "maxTeams": 2,
     "commandPrefix": "!",
+    "gameMode": 3,
     "maps": [
         "Fracture",
         "Breeze",
@@ -14,5 +14,6 @@
     ],
     "queueImage": "https://i.pinimg.com/originals/21/04/3a/21043a9e53361d43aebe097032a75238.gif",
     "gameImage": "https://c.tenor.com/daiBJ_hoDBsAAAAC/monogatari-nadeko-sengoku.gif",
-    "winImage": "https://c.tenor.com/TWGLigFdw40AAAAC/ougi-oshino-ougi.gif"
+    "winImage": "https://c.tenor.com/TWGLigFdw40AAAAC/ougi-oshino-ougi.gif",
+    "mapImage": "https://c.tenor.com/NCR62MCn19UAAAAC/oshino-ougi.gif"
 }
